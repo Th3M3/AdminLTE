@@ -10,19 +10,14 @@ require "scripts/pi-hole/php/header.php";
 
 $list = $_GET['l'] ?? '';
 
-if ($list == "white")
-{
+if ($list == "white") {
     $listtitle = "Whitelist";
     $heading = "whitelisting";
-}
-elseif ($list == "black")
-{
+} elseif ($list == "black") {
     $listtitle = "Blacklist";
     $heading = "blocking";
-}
-else
-{
-    echo "Invalid list parameter ".$list;
+} else {
+    echo "Invalid list parameter " . $list;
     require "scripts/pi-hole/php/footer.php";
     die();
 }

@@ -8,61 +8,48 @@
 
 function getGravityDBFilename()
 {
-	// Get possible non-standard location of FTL's database
-	$FTLsettings = parse_ini_file("/etc/pihole/pihole-FTL.conf");
-	if(isset($FTLsettings["GRAVITYDB"]))
-	{
-		return $FTLsettings["GRAVITYDB"];
-	}
-	else
-	{
-		return "/etc/pihole/gravity.db";
-	}
+    // Get possible non-standard location of FTL's database
+    $FTLsettings = parse_ini_file("/etc/pihole/pihole-FTL.conf");
+    if (isset($FTLsettings["GRAVITYDB"])) {
+        return $FTLsettings["GRAVITYDB"];
+    } else {
+        return "/etc/pihole/gravity.db";
+    }
 }
 
 function SQLite3_connect_try($filename, $mode, $trytoreconnect)
 {
-	try
-	{
-		// connect to database
-		return new SQLite3($filename, $mode);
-	}
-	catch (Exception $exception)
-	{
-		// sqlite3 throws an exception when it is unable to connect, try to reconnect after 3 seconds
-		if($trytoreconnect)
-		{
-			sleep(3);
-			return SQLite3_connect_try($filename, $mode, false);
-		}
-		else
-		{
-			// If we should not try again (or are already trying again!), we return the exception string
-			// so the user gets it on the dashboard
-			return $filename.": ".$exception->getMessage();
-		}
-	}
+    try {
+        // connect to database
+        return new SQLite3($filename, $mode);
+    } catch (Exception $exception) {
+        // sqlite3 throws an exception when it is unable to connect, try to reconnect after 3 seconds
+        if ($trytoreconnect) {
+            sleep(3);
+            return SQLite3_connect_try($filename, $mode, false);
+        } else {
+            // If we should not try again (or are already trying again!), we return the exception string
+            // so the user gets it on the dashboard
+            return $filename . ": " . $exception->getMessage();
+        }
+    }
 }
 
-function SQLite3_connect($filename, $mode=SQLITE3_OPEN_READONLY)
+function SQLite3_connect($filename, $mode = SQLITE3_OPEN_READONLY)
 {
-	if(strlen($filename) > 0)
-	{
-		$db = SQLite3_connect_try($filename, $mode, true);
-	}
-	else
-	{
-		die("No database available");
-	}
-	if(is_string($db))
-	{
-		die("Error connecting to database\n".$db);
-	}
+    if (strlen($filename) > 0) {
+        $db = SQLite3_connect_try($filename, $mode, true);
+    } else {
+        die("No database available");
+    }
+    if (is_string($db)) {
+        die("Error connecting to database\n" . $db);
+    }
 
-	// Add busy timeout so methods don't fail immediately when, e.g., FTL is currently reading from the DB
-	$db->busyTimeout(5000);
+    // Add busy timeout so methods don't fail immediately when, e.g., FTL is currently reading from the DB
+    $db->busyTimeout(5000);
 
-	return $db;
+    return $db;
 }
 
 
@@ -76,90 +63,87 @@ function SQLite3_connect($filename, $mode=SQLITE3_OPEN_READONLY)
  * @param $returnnum boolean Whether to return an integer or a string
  * @return string Success/error and number of processed domains
  */
-function add_to_table($db, $table, $domains, $comment, $wildcardstyle=false, $returnnum=false)
+function add_to_table($db, $table, $domains, $comment, $wildcardstyle = false, $returnnum = false)
 {
-	// Begin transaction
-	if(!$db->exec("BEGIN TRANSACTION;"))
-	{
-		if($returnnum)
-			return 0;
-		else
-			return "Error: Unable to begin transaction for ".$table." table.";
-	}
-	$initialcount = intval($db->querySingle("SELECT COUNT(*) FROM ".$table.";"));
+    // Begin transaction
+    if (!$db->exec("BEGIN TRANSACTION;")) {
+        if ($returnnum) {
+            return 0;
+        } else {
+            return "Error: Unable to begin transaction for " . $table . " table.";
+        }
+    }
+    $initialcount = intval($db->querySingle("SELECT COUNT(*) FROM " . $table . ";"));
 
-	// Prepare SQLite statememt
-	$stmt = $db->prepare("INSERT OR IGNORE INTO ".$table." (domain,comment) VALUES (:domain, :comment);");
+    // Prepare SQLite statememt
+    $stmt = $db->prepare("INSERT OR IGNORE INTO " . $table . " (domain,comment) VALUES (:domain, :comment);");
 
-	// Return early if we failed to prepare the SQLite statement
-	if(!$stmt)
-	{
-		if($returnnum)
-			return 0;
-		else
-			return "Error: Failed to prepare statement for ".$table." table.";
-	}
+    // Return early if we failed to prepare the SQLite statement
+    if (!$stmt) {
+        if ($returnnum) {
+            return 0;
+        } else {
+            return "Error: Failed to prepare statement for " . $table . " table.";
+        }
+    }
 
-	// Loop over domains and inject the lines into the database
-	$num = 0;
-	foreach($domains as $domain)
-	{
-		// Limit max length for a domain entry to 253 chars
-		if(strlen($domain) > 253)
-			continue;
+    // Loop over domains and inject the lines into the database
+    $num = 0;
+    foreach ($domains as $domain) {
+        // Limit max length for a domain entry to 253 chars
+        if (strlen($domain) > 253) {
+            continue;
+        }
 
-		if($wildcardstyle)
-			$domain = "(\\.|^)".str_replace(".","\\.",$domain)."$";
+        if ($wildcardstyle) {
+            $domain = "(\\.|^)" . str_replace(".", "\\.", $domain) . "$";
+        }
 
-		$stmt->bindValue(":domain", $domain, SQLITE3_TEXT);
-		$stmt->bindValue(":comment", $comment, SQLITE3_TEXT);
+        $stmt->bindValue(":domain", $domain, SQLITE3_TEXT);
+        $stmt->bindValue(":comment", $comment, SQLITE3_TEXT);
 
-		if($stmt->execute() && $stmt->reset())
-			$num++;
-		else
-		{
-			$stmt->close();
-			if($returnnum)
-				return $num;
-			else
-			{
-				if($num === 1)
-					$plural = "";
-				else
-					$plural = "s";
-				return "Error: ".$db->lastErrorMsg().", added ".$num." domain".$plural;
-			}
-		}
-	}
+        if ($stmt->execute() && $stmt->reset()) {
+            $num++;
+        } else {
+            $stmt->close();
+            if ($returnnum) {
+                return $num;
+            } else {
+                if ($num === 1) {
+                    $plural = "";
+                } else {
+                    $plural = "s";
+                }
+                return "Error: " . $db->lastErrorMsg() . ", added " . $num . " domain" . $plural;
+            }
+        }
+    }
 
-	// Close prepared statement and return number of processed rows
-	$stmt->close();
-	$db->exec("COMMIT;");
+    // Close prepared statement and return number of processed rows
+    $stmt->close();
+    $db->exec("COMMIT;");
 
-	if($returnnum)
-		return $num;
-	else
-	{
-		$finalcount = intval($db->querySingle("SELECT COUNT(*) FROM ".$table.";"));
-		$modified = $finalcount - $initialcount;
+    if ($returnnum) {
+        return $num;
+    } else {
+        $finalcount = intval($db->querySingle("SELECT COUNT(*) FROM " . $table . ";"));
+        $modified = $finalcount - $initialcount;
 
-		// If we add less domains than the user specified, then they wanted to add duplicates
-		if($modified !== $num)
-		{
-			$delta = $num - $modified;
-			$extra = " (skipped ".$delta." duplicates)";
-		}
-		else
-		{
-			$extra = "";
-		}
+        // If we add less domains than the user specified, then they wanted to add duplicates
+        if ($modified !== $num) {
+            $delta = $num - $modified;
+            $extra = " (skipped " . $delta . " duplicates)";
+        } else {
+            $extra = "";
+        }
 
-		if($num === 1)
-			$plural = "";
-		else
-			$plural = "s";
-		return "Success, added ".$modified." of ".$num." domain".$plural.$extra;
-	}
+        if ($num === 1) {
+            $plural = "";
+        } else {
+            $plural = "s";
+        }
+        return "Success, added " . $modified . " of " . $num . " domain" . $plural . $extra;
+    }
 }
 
 /**
@@ -171,68 +155,64 @@ function add_to_table($db, $table, $domains, $comment, $wildcardstyle=false, $re
  * @param $returnnum boolean Whether to return an integer or a string
  * @return string Success/error and number of processed domains
  */
-function remove_from_table($db, $table, $domains, $returnnum=false)
+function remove_from_table($db, $table, $domains, $returnnum = false)
 {
-	// Begin transaction
-	if(!$db->exec("BEGIN TRANSACTION;"))
-	{
-		if($returnnum)
-			return 0;
-		else
-			return "Error: Unable to begin transaction for ".$table." table.";
-	}
-	$initialcount = intval($db->querySingle("SELECT COUNT(*) FROM ".$table.";"));
+    // Begin transaction
+    if (!$db->exec("BEGIN TRANSACTION;")) {
+        if ($returnnum) {
+            return 0;
+        } else {
+            return "Error: Unable to begin transaction for " . $table . " table.";
+        }
+    }
+    $initialcount = intval($db->querySingle("SELECT COUNT(*) FROM " . $table . ";"));
 
-	// Prepare SQLite statememt
-	$stmt = $db->prepare("DELETE FROM ".$table." WHERE domain = :domain;");
+    // Prepare SQLite statememt
+    $stmt = $db->prepare("DELETE FROM " . $table . " WHERE domain = :domain;");
 
-	// Return early if we failed to prepare the SQLite statement
-	if(!$stmt)
-	{
-		if($returnnum)
-			return 0;
-		else
-			return "Error: Failed to prepare statement for ".$table." table.";
-	}
+    // Return early if we failed to prepare the SQLite statement
+    if (!$stmt) {
+        if ($returnnum) {
+            return 0;
+        } else {
+            return "Error: Failed to prepare statement for " . $table . " table.";
+        }
+    }
 
-	// Loop over domains and remove the lines from the database
-	$num = 0;
-	foreach($domains as $domain)
-	{
-		$stmt->bindValue(":domain", $domain, SQLITE3_TEXT);
+    // Loop over domains and remove the lines from the database
+    $num = 0;
+    foreach ($domains as $domain) {
+        $stmt->bindValue(":domain", $domain, SQLITE3_TEXT);
 
-		if($stmt->execute() && $stmt->reset())
-			$num++;
-		else
-		{
-			$stmt->close();
-			if($returnnum)
-				return $num;
-			else
-			{
-				if($num === 1)
-					$plural = "";
-				else
-					$plural = "s";
-				return "Error: ".$db->lastErrorMsg().", removed ".$num." domain".$plural;
-			}
-		}
-	}
+        if ($stmt->execute() && $stmt->reset()) {
+            $num++;
+        } else {
+            $stmt->close();
+            if ($returnnum) {
+                return $num;
+            } else {
+                if ($num === 1) {
+                    $plural = "";
+                } else {
+                    $plural = "s";
+                }
+                return "Error: " . $db->lastErrorMsg() . ", removed " . $num . " domain" . $plural;
+            }
+        }
+    }
 
-	// Close prepared statement and return number or processed rows
-	$stmt->close();
-	$db->exec("COMMIT;");
+    // Close prepared statement and return number or processed rows
+    $stmt->close();
+    $db->exec("COMMIT;");
 
-	if($returnnum)
-		return $num;
-	else
-	{
-		if($num === 1)
-			$plural = "";
-		else
-			$plural = "s";
-		return "Success, removed ".$num." domain".$plural;
-	}
+    if ($returnnum) {
+        return $num;
+    } else {
+        if ($num === 1) {
+            $plural = "";
+        } else {
+            $plural = "s";
+        }
+        return "Success, removed " . $num . " domain" . $plural;
+    }
 }
-
-?>

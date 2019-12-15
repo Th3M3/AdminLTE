@@ -19,7 +19,7 @@ if (empty($api)) {
 // Only check domains we add to the exact lists.
 // Regex are validated by FTL during import
 $check_lists = ["white","black","audit"];
-if(in_array($list, $check_lists)) {
+if (in_array($list, $check_lists)) {
     check_domain();
 }
 
@@ -32,39 +32,38 @@ require_once("database.php");
 $GRAVITYDB = getGravityDBFilename();
 $db = SQLite3_connect($GRAVITYDB, SQLITE3_OPEN_READWRITE);
 
-switch($list) {
-	case "white":
-		echo add_to_table($db, "whitelist", $domains, $comment);
-		break;
+switch ($list) {
+    case "white":
+        echo add_to_table($db, "whitelist", $domains, $comment);
+        break;
 
-	case "black":
-		echo add_to_table($db, "blacklist", $domains, $comment);
-		break;
+    case "black":
+        echo add_to_table($db, "blacklist", $domains, $comment);
+        break;
 
-	case "black_regex":
-		echo add_to_table($db, "regex_blacklist", $domains, $comment);
-		break;
+    case "black_regex":
+        echo add_to_table($db, "regex_blacklist", $domains, $comment);
+        break;
 
-	case "white_regex":
-		echo add_to_table($db, "regex_whitelist", $domains, $comment);
-		break;
+    case "white_regex":
+        echo add_to_table($db, "regex_whitelist", $domains, $comment);
+        break;
 
-	case "black_wild":
-		echo add_to_table($db, "regex_blacklist", $domains, $comment, true);
-		break;
+    case "black_wild":
+        echo add_to_table($db, "regex_blacklist", $domains, $comment, true);
+        break;
 
-	case "white_wild":
-		echo add_to_table($db, "regex_whitelist", $domains, $comment, true);
-		break;
+    case "white_wild":
+        echo add_to_table($db, "regex_whitelist", $domains, $comment, true);
+        break;
 
-	case "audit":
-		echo add_to_table($db, "domain_audit", $domains, $comment);
-		break;
+    case "audit":
+        echo add_to_table($db, "domain_audit", $domains, $comment);
+        break;
 
-	default:
-		die("Invalid list!");
+    default:
+        die("Invalid list!");
 }
 
 // Reload lists in pihole-FTL after having added something
 echo shell_exec("sudo pihole restartdns reload");
-?>
