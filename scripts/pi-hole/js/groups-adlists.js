@@ -28,6 +28,7 @@ function showAlert(type, icon, title, message) {
       } else {
         $.notify(opts);
       }
+
       break;
     case "warning":
       opts = {
@@ -41,6 +42,7 @@ function showAlert(type, icon, title, message) {
       } else {
         $.notify(opts);
       }
+
       break;
     case "error":
       opts = {
@@ -54,9 +56,9 @@ function showAlert(type, icon, title, message) {
       } else {
         $.notify(opts);
       }
+
       break;
     default:
-      return;
   }
 }
 
@@ -157,12 +159,14 @@ function initTable() {
         if (!groups[i].enabled) {
           extra = " (disabled)";
         }
+
         sel.append(
           $("<option />")
             .val(groups[i].id)
             .text(groups[i].name + extra)
         );
       }
+
       // Select assigned groups
       sel.val(data.groups);
       // Initialize multiselect
@@ -193,6 +197,7 @@ function initTable() {
       if (data === null) {
         return null;
       }
+
       data = JSON.parse(data);
       // Always start on the first page to show most recent queries
       data.start = 0;
@@ -324,7 +329,7 @@ function editAdlist() {
           "error",
           "",
           "Error while " + not_done + " adlist with ID " + id,
-          +response.message
+          Number(response.message)
         );
       }
     },

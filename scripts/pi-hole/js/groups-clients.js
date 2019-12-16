@@ -28,6 +28,7 @@ function showAlert(type, icon, title, message) {
       } else {
         $.notify(opts);
       }
+
       break;
     case "warning":
       opts = {
@@ -41,6 +42,7 @@ function showAlert(type, icon, title, message) {
       } else {
         $.notify(opts);
       }
+
       break;
     case "error":
       opts = {
@@ -54,9 +56,9 @@ function showAlert(type, icon, title, message) {
       } else {
         $.notify(opts);
       }
+
       break;
     default:
-      return;
   }
 }
 
@@ -71,16 +73,19 @@ function reload_client_suggestions() {
         if (!data.hasOwnProperty(key)) {
           continue;
         }
+
         var text = key;
         if (data[key].length > 0) {
           text += " (" + data[key] + ")";
         }
+
         sel.append(
           $("<option />")
             .val(key)
             .text(text)
         );
       }
+
       sel.append(
         $("<option />")
           .val("custom")
@@ -165,12 +170,14 @@ function initTable() {
         if (!groups[i].enabled) {
           extra = " (disabled)";
         }
+
         sel.append(
           $("<option />")
             .val(groups[i].id)
             .text(groups[i].name + extra)
         );
       }
+
       // Select assigned groups
       sel.val(data.groups);
       // Initialize multiselect
@@ -201,6 +208,7 @@ function initTable() {
       if (data === null) {
         return null;
       }
+
       data = JSON.parse(data);
       // Always start on the first page to show most recent queries
       data.start = 0;
@@ -340,6 +348,7 @@ function deleteClient() {
   if (name.length > 0) {
     ip_name += " (" + name + ")";
   }
+
   showAlert("info", "", "Deleting client...", ip_name);
   $.ajax({
     url: "scripts/pi-hole/php/groups.php",
