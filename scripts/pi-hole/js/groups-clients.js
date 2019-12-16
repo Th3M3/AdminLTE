@@ -28,6 +28,7 @@ function showAlert(type, icon, title, message) {
       } else {
         $.notify(opts);
       }
+
       break;
     case "warning":
       opts = {
@@ -41,6 +42,7 @@ function showAlert(type, icon, title, message) {
       } else {
         $.notify(opts);
       }
+
       break;
     case "error":
       opts = {
@@ -54,9 +56,9 @@ function showAlert(type, icon, title, message) {
       } else {
         $.notify(opts);
       }
+
       break;
     default:
-      return;
   }
 }
 
@@ -71,16 +73,19 @@ function reload_client_suggestions() {
         if (!data.hasOwnProperty(key)) {
           continue;
         }
+
         var text = key;
         if (data[key].length > 0) {
           text += " (" + data[key] + ")";
         }
+
         sel.append(
           $("<option />")
             .val(key)
             .text(text)
         );
       }
+
       sel.append(
         $("<option />")
           .val("custom")
@@ -111,10 +116,7 @@ $(document).ready(function() {
 
   $("#select").on("change", function() {
     $("#ip-custom").val("");
-    $("#ip-custom").prop(
-      "disabled",
-      $("#select option:selected").val() !== "custom"
-    );
+    $("#ip-custom").prop("disabled", $("#select option:selected").val() !== "custom");
   });
 });
 
@@ -146,18 +148,11 @@ function initTable() {
         data.id +
         '">';
       if (data.name !== null && data.name.length > 0)
-        ip_name +=
-          '<br><code id="name" title="' +
-          tooltip +
-          '">' +
-          data.name +
-          "</code>";
+        ip_name += '<br><code id="name" title="' + tooltip + '">' + data.name + "</code>";
       $("td:eq(0)", row).html(ip_name);
 
       $("td:eq(1)", row).empty();
-      $("td:eq(1)", row).append(
-        '<select id="multiselect" multiple="multiple"></select>'
-      );
+      $("td:eq(1)", row).append('<select id="multiselect" multiple="multiple"></select>');
       var sel = $("#multiselect", row);
       // Add all known groups
       for (var i = 0; i < groups.length; i++) {
@@ -165,12 +160,14 @@ function initTable() {
         if (!groups[i].enabled) {
           extra = " (disabled)";
         }
+
         sel.append(
           $("<option />")
             .val(groups[i].id)
             .text(groups[i].name + extra)
         );
       }
+
       // Select assigned groups
       sel.val(data.groups);
       // Initialize multiselect
@@ -201,6 +198,7 @@ function initTable() {
       if (data === null) {
         return null;
       }
+
       data = JSON.parse(data);
       // Always start on the first page to show most recent queries
       data.start = 0;
@@ -247,30 +245,15 @@ function addClient() {
     data: { action: "add_client", ip: ip, token: token },
     success: function(response) {
       if (response.success) {
-        showAlert(
-          "success",
-          "glyphicon glyphicon-plus",
-          "Successfully added client",
-          ip
-        );
+        showAlert("success", "glyphicon glyphicon-plus", "Successfully added client", ip);
         reload_client_suggestions();
         table.ajax.reload();
       } else {
-        showAlert(
-          "error",
-          "",
-          "Error while adding new client",
-          response.message
-        );
+        showAlert("error", "", "Error while adding new client", response.message);
       }
     },
     error: function(jqXHR, exception) {
-      showAlert(
-        "error",
-        "",
-        "Error while adding new client",
-        jqXHR.responseText
-      );
+      showAlert("error", "", "Error while adding new client", jqXHR.responseText);
       console.log(exception);
     }
   });
@@ -311,11 +294,7 @@ function editClient() {
           ip_name
         );
       } else {
-        showAlert(
-          "error",
-          "Error while " + not_done + " client with ID " + id,
-          response.message
-        );
+        showAlert("error", "Error while " + not_done + " client with ID " + id, response.message);
       }
     },
     error: function(jqXHR, exception) {
@@ -340,6 +319,7 @@ function deleteClient() {
   if (name.length > 0) {
     ip_name += " (" + name + ")";
   }
+
   showAlert("info", "", "Deleting client...", ip_name);
   $.ajax({
     url: "scripts/pi-hole/php/groups.php",
@@ -348,33 +328,18 @@ function deleteClient() {
     data: { action: "delete_client", id: id, token: token },
     success: function(response) {
       if (response.success) {
-        showAlert(
-          "success",
-          "glyphicon glyphicon-trash",
-          "Successfully deleted client ",
-          ip_name
-        );
+        showAlert("success", "glyphicon glyphicon-trash", "Successfully deleted client ", ip_name);
         table
           .row(tr)
           .remove()
           .draw(false);
         reload_client_suggestions();
       } else {
-        showAlert(
-          "error",
-          "",
-          "Error while deleting client with ID " + id,
-          response.message
-        );
+        showAlert("error", "", "Error while deleting client with ID " + id, response.message);
       }
     },
     error: function(jqXHR, exception) {
-      showAlert(
-        "error",
-        "",
-        "Error while deleting client with ID " + id,
-        jqXHR.responseText
-      );
+      showAlert("error", "", "Error while deleting client with ID " + id, jqXHR.responseText);
       console.log(exception);
     }
   });

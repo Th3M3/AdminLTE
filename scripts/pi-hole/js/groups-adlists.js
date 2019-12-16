@@ -28,6 +28,7 @@ function showAlert(type, icon, title, message) {
       } else {
         $.notify(opts);
       }
+
       break;
     case "warning":
       opts = {
@@ -41,6 +42,7 @@ function showAlert(type, icon, title, message) {
       } else {
         $.notify(opts);
       }
+
       break;
     case "error":
       opts = {
@@ -54,9 +56,9 @@ function showAlert(type, icon, title, message) {
       } else {
         $.notify(opts);
       }
+
       break;
     default:
-      return;
   }
 }
 
@@ -83,10 +85,7 @@ $(document).ready(function() {
 
   $("#select").on("change", function() {
     $("#ip-custom").val("");
-    $("#ip-custom").prop(
-      "disabled",
-      $("#select option:selected").val() !== "custom"
-    );
+    $("#ip-custom").prop("disabled", $("#select option:selected").val() !== "custom");
   });
 });
 
@@ -123,9 +122,7 @@ function initTable() {
 
       const disabled = data.enabled === 0;
       $("td:eq(1)", row).html(
-        '<input type="checkbox" id="status"' +
-          (disabled ? "" : " checked") +
-          ">"
+        '<input type="checkbox" id="status"' + (disabled ? "" : " checked") + ">"
       );
       var status = $("#status", row);
       status.bootstrapToggle({
@@ -147,9 +144,7 @@ function initTable() {
       comment.on("change", editAdlist);
 
       $("td:eq(3)", row).empty();
-      $("td:eq(3)", row).append(
-        '<select id="multiselect" multiple="multiple"></select>'
-      );
+      $("td:eq(3)", row).append('<select id="multiselect" multiple="multiple"></select>');
       var sel = $("#multiselect", row);
       // Add all known groups
       for (var i = 0; i < groups.length; i++) {
@@ -157,12 +152,14 @@ function initTable() {
         if (!groups[i].enabled) {
           extra = " (disabled)";
         }
+
         sel.append(
           $("<option />")
             .val(groups[i].id)
             .text(groups[i].name + extra)
         );
       }
+
       // Select assigned groups
       sel.val(data.groups);
       // Initialize multiselect
@@ -193,6 +190,7 @@ function initTable() {
       if (data === null) {
         return null;
       }
+
       data = JSON.parse(data);
       // Always start on the first page to show most recent queries
       data.start = 0;
@@ -242,31 +240,16 @@ function addAdlist() {
     },
     success: function(response) {
       if (response.success) {
-        showAlert(
-          "success",
-          "glyphicon glyphicon-plus",
-          "Successfully added adlist",
-          address
-        );
+        showAlert("success", "glyphicon glyphicon-plus", "Successfully added adlist", address);
         $("#new_address").val("");
         $("#new_comment").val("");
         table.ajax.reload();
       } else {
-        showAlert(
-          "error",
-          "",
-          "Error while adding new adlist: ",
-          response.message
-        );
+        showAlert("error", "", "Error while adding new adlist: ", response.message);
       }
     },
     error: function(jqXHR, exception) {
-      showAlert(
-        "error",
-        "",
-        "Error while adding new adlist: ",
-        jqXHR.responseText
-      );
+      showAlert("error", "", "Error while adding new adlist: ", jqXHR.responseText);
       console.log(exception);
     }
   });
@@ -324,7 +307,7 @@ function editAdlist() {
           "error",
           "",
           "Error while " + not_done + " adlist with ID " + id,
-          +response.message
+          Number(response.message)
         );
       }
     },
@@ -353,31 +336,15 @@ function deleteAdlist() {
     data: { action: "delete_adlist", id: id, token: token },
     success: function(response) {
       if (response.success) {
-        showAlert(
-          "success",
-          "glyphicon glyphicon-trash",
-          "Successfully deleted adlist ",
-          address
-        );
+        showAlert("success", "glyphicon glyphicon-trash", "Successfully deleted adlist ", address);
         table
           .row(tr)
           .remove()
           .draw(false);
-      } else
-        showAlert(
-          "error",
-          "",
-          "Error while deleting adlist with ID " + id,
-          response.message
-        );
+      } else showAlert("error", "", "Error while deleting adlist with ID " + id, response.message);
     },
     error: function(jqXHR, exception) {
-      showAlert(
-        "error",
-        "",
-        "Error while deleting adlist with ID " + id,
-        jqXHR.responseText
-      );
+      showAlert("error", "", "Error while deleting adlist with ID " + id, jqXHR.responseText);
       console.log(exception);
     }
   });
