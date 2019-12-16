@@ -1,3 +1,5 @@
+/* global moment:false */
+
 var table;
 var groups = [];
 const token = $("#token").html();
@@ -105,7 +107,7 @@ function initTable() {
       { data: "groups", searchable: false },
       { data: null, width: "80px", orderable: false }
     ],
-    drawCallback: function(settings) {
+    drawCallback: function() {
       $(".deleteAdlist").on("click", deleteAdlist);
     },
     rowCallback: function(row, data) {
@@ -183,7 +185,7 @@ function initTable() {
       // Store current state in client's local storage area
       localStorage.setItem("groups-adlists-table", JSON.stringify(data));
     },
-    stateLoadCallback: function(settings) {
+    stateLoadCallback: function() {
       // Receive previous state from client's local storage area
       var data = localStorage.getItem("groups-adlists-table");
       // Return if not available
