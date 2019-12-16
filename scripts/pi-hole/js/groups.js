@@ -1,3 +1,5 @@
+/* global moment:false */
+
 var table;
 const token = $("#token").html();
 var info = null;
@@ -82,7 +84,7 @@ $(document).ready(function() {
       { data: "description" },
       { data: null, width: "60px", orderable: false }
     ],
-    drawCallback: function(settings) {
+    drawCallback: function() {
       $(".deleteGroup").on("click", deleteGroup);
     },
     rowCallback: function(row, data) {
@@ -146,7 +148,7 @@ $(document).ready(function() {
       // Store current state in client's local storage area
       localStorage.setItem("groups-table", JSON.stringify(data));
     },
-    stateLoadCallback: function(settings) {
+    stateLoadCallback: function() {
       // Receive previous state from client's local storage area
       var data = localStorage.getItem("groups-table");
       // Return if not available

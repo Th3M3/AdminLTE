@@ -7,8 +7,7 @@
 
 // Define global variables
 /* global Chart:false, updateSessionTimer:false */
-var timeLineChart, clientsChart;
-var queryTypePieChart, forwardDestinationPieChart;
+var timeLineChart, clientsChart, queryTypePieChart, forwardDestinationPieChart;
 
 function padNumber(num) {
   return ("00" + num).substr(-2, 2);
