@@ -5,8 +5,6 @@
  *  This file is copyright under the latest version of the EUPL.
  *  Please see LICENSE file for your rights under this license. */
 
-/* global ActiveXObject:false */
-
 var info = null;
 
 function quietfilter(ta, data) {
@@ -41,14 +39,7 @@ window.escapeHtml = function(text) {
 
 // Credit: https://stackoverflow.com/a/10642418/2087442
 window.httpGet = function(ta, theUrl, quiet) {
-  var xmlhttp;
-  if (window.XMLHttpRequest) {
-    // code for IE7+
-    xmlhttp = new XMLHttpRequest();
-  } else {
-    // code for IE6, IE5
-    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-  }
+  var xmlhttp = new XMLHttpRequest();
 
   xmlhttp.onreadystatechange = function() {
     if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
