@@ -6,31 +6,8 @@
  *  Please see LICENSE file for your rights under this license. */
 
 // Define global variables
-/* global Chart:false, updateSessionTimer:false */
+/* global Chart:false, objectToArray: false, escapeHtml:false, padNumber:false, updateSessionTimer:false */
 var timeLineChart, clientsChart, queryTypePieChart, forwardDestinationPieChart;
-
-function padNumber(num) {
-  return ("00" + num).substr(-2, 2);
-}
-
-// Helper function needed for converting the Objects to Arrays
-
-function objectToArray(p) {
-  var keys = Object.keys(p);
-  keys.sort(function(a, b) {
-    return a - b;
-  });
-
-  var arr = [],
-    idx = [];
-  for (var i = 0; i < keys.length; i++) {
-    arr.push(p[keys[i]]);
-    idx.push(keys[i]);
-  }
-
-  return [idx, arr];
-}
-
 var lastTooltipTime = 0;
 
 var customTooltips = function(tooltip) {
@@ -442,21 +419,6 @@ function updateForwardDestinationsPie() {
   });
 }
 
-// Credit: http://stackoverflow.com/questions/1787322/htmlspecialchars-equivalent-in-javascript/4835406#4835406
-function escapeHtml(text) {
-  var map = {
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#039;"
-  };
-
-  return text.replace(/[&<>"']/g, function(m) {
-    return map[m];
-  });
-}
-
 function updateTopClientsChart() {
   $.getJSON("api.php?summaryRaw&getQuerySources&topClientsBlocked", function(
     data
@@ -769,29 +731,6 @@ function updateSummaryData(runOnce) {
 }
 
 $(document).ready(function() {
-  var isMobile = {
-    Windows: function() {
-      return /IEMobile/i.test(navigator.userAgent);
-    },
-    Android: function() {
-      return /Android/i.test(navigator.userAgent);
-    },
-    BlackBerry: function() {
-      return /BlackBerry/i.test(navigator.userAgent);
-    },
-    iOS: function() {
-      return /iPhone|iPad|iPod/i.test(navigator.userAgent);
-    },
-    any: function() {
-      return (
-        isMobile.Android() ||
-        isMobile.BlackBerry() ||
-        isMobile.iOS() ||
-        isMobile.Windows()
-      );
-    }
-  };
-
   // Pull in data via AJAX
 
   updateSummaryData();
