@@ -206,7 +206,7 @@ var reloadCallback = function() {
   timeoutWarning.hide();
   statistics = [0, 0, 0, 0];
   var data = tableApi.rows().data();
-  for (var i = 0; i < data.length; i++) {
+  for (var i = 0, len = data.length; i < len; i++) {
     statistics[0]++;
     if (data[i][4] === 1) {
       statistics[2]++;

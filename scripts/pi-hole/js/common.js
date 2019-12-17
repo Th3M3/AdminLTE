@@ -9,7 +9,8 @@ var info = null;
 
 function quietfilter(ta, data) {
   var lines = data.split("\n");
-  for (var i = 0; i < lines.length; i++) {
+
+  for (var i = 0, len = lines.length; i < len; i++) {
     if (
       lines[i].indexOf("results") !== -1 &&
       lines[i].indexOf("0 results") === -1
@@ -70,7 +71,7 @@ window.objectToArray = function(p) {
 
   var arr = [],
     idx = [];
-  for (var i = 0; i < keys.length; i++) {
+  for (var i = 0, len = keys.length; i < len; i++) {
     arr.push(p[keys[i]]);
     idx.push(keys[i]);
   }
