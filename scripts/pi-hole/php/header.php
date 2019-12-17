@@ -222,16 +222,16 @@
     <script src="scripts/vendor/bootstrap-notify.min.js"></script>
 
 <?php if(in_array($scriptname, array("groups.php", "groups-clients.php", "groups-domains.php", "groups-adlists.php"))){ ?>
-    <script src="style/vendor/bootstrap/js/bootstrap-multiselect.js"></script>
     <link rel="stylesheet" href="style/vendor/bootstrap/css/bootstrap-multiselect.css">
-    <script src="style/vendor/bootstrap/js/bootstrap-toggle.min.js"></script>
     <link rel="stylesheet" href="style/vendor/bootstrap/css/bootstrap-toggle.min.css">
-    <script src="scripts/vendor/moment.min.js"></script>
+    <script src="style/vendor/bootstrap/js/bootstrap-multiselect.js"></script>
+    <script src="style/vendor/bootstrap/js/bootstrap-toggle.min.js"></script>
 <?php } ?>
 
     <script src="scripts/vendor/jquery.dataTables.min.js"></script>
     <script src="scripts/vendor/dataTables.bootstrap.min.js"></script>
-    <script src="scripts/vendor/Chart.bundle.min.js"></script>
+    <script src="scripts/vendor/moment.min.js"></script>
+    <script src="scripts/vendor/Chart.min.js"></script>
 </head>
 <body class="skin-blue sidebar-mini <?php if($boxedlayout){ ?>layout-boxed<?php } ?>">
  <noscript>
