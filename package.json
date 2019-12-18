@@ -19,6 +19,7 @@
     "test": "npm run xo"
   },
   "devDependencies": {
+    "eslint-plugin-compat": "^3.3.0",
     "xo": "^0.25.3"
   },
   "prettier": {
@@ -26,11 +27,21 @@
     "bracketSpacing": true,
     "singleQuote": false
   },
+  "browserslist": [
+    "defaults",
+    ">0.2%",
+    "not dead",
+    "Explorer >= 9",
+    "not ExplorerMobile <= 11"
+  ],
   "xo": {
     "space": 2,
     "envs": [
       "browser",
       "jquery"
+    ],
+    "extends": [
+      "plugin:compat/recommended"
     ],
     "parserOptions": {
       "ecmaVersion": 3,
