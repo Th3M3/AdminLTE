@@ -262,18 +262,17 @@ $(function() {
   });
 });
 
-// Wrap form-group's buttons to next line when viewed on a small screen
-$(window).on("resize", function() {
-  btnElList = "#btnAdd, #btnAddWildcard, #btnAddRegex, #btnRefresh";
-  Array.prototype.slice.call(document.querySelectorAll(btnElList))
-   .forEach(function(element) {
-    if ($(window).width() < 400) {
-       element.classList.add('btn-block');
-    } else {
-       element.classList.remove('btn-block');
-    }
+// Add margin to buttons if they get wrapped into a new line
+["resize", "DOMContentLoaded"].forEach(function(event) {
+  window.addEventListener(event, function() {
+    var btnElList = "#btnAdd, #btnAddWildcard, #btnAddRegex, #btnRefresh";
+    Array.prototype.slice.call(document.querySelectorAll(btnElList))
+      .forEach(function(element) {
+         if (element.offsetTop > 5) {
+             element.style.marginTop = "5px";
+         } else {
+             element.style.marginTop = "";
+         };
+      });
   });
-});
-$(document).ready(function() {
-  $(window).trigger("resize");
 });
