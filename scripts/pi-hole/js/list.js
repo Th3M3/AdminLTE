@@ -275,6 +275,7 @@ $(window).on("resize", function() {
     Array.prototype.slice.call(document.querySelectorAll(btnElList))
      .forEach(function(element) {
        element.classList.remove('btn-block');
+    });
   }
 });
 $(document).ready(function() {
