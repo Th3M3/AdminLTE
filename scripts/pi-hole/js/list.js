@@ -261,3 +261,22 @@ $(function() {
       .hide();
   });
 });
+
+// Wrap form-group's buttons to next line when viewed on a small screen
+$(window).on("resize", function() {
+  btnElList = "#btnAdd, #btnAddWildcard, #btnAddRegex, #btnRefresh";
+
+  if ($(window).width() < 400) {
+    Array.prototype.slice.call(document.querySelectorAll(btnElList))
+     .forEach(function(element) {
+       element.classList.add('btn-block');
+    });
+  } else {
+    Array.prototype.slice.call(document.querySelectorAll(btnElList))
+     .forEach(function(element) {
+       element.classList.remove('btn-block');
+  }
+});
+$(document).ready(function() {
+  $(window).trigger("resize");
+});
