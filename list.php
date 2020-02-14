@@ -44,12 +44,10 @@ else
     <input id="comment" type="text" class="form-control" placeholder="Include a comment (optional)">
   </div>
   <div class="form-group col-xs-12 text-center">
-    <span class="input-group-btn">
-        <button id="btnAdd" class="btn btn-default" type="button">Add (exact)</button>
-        <button id="btnAddWildcard" class="btn btn-default" type="button">Add (wildcard)</button>
-        <button id="btnAddRegex" class="btn btn-default" type="button">Add (regex)</button>
-        <button id="btnRefresh" class="btn btn-default" type="button"><i class="fa fa-sync"></i></button>
-    </span>
+      <button id="btnAdd" class="btn btn-default" type="button">Add (exact)</button>
+      <button id="btnAddWildcard" class="btn btn-default" type="button">Add (wildcard)</button>
+      <button id="btnAddRegex" class="btn btn-default" type="button">Add (regex)</button>
+      <button id="btnRefresh" class="btn btn-default" type="button"><i class="fa fa-sync"></i></button>
   </div>
 </div>
 <!-- Alerts -->
