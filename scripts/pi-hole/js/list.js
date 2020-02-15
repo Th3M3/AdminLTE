@@ -271,7 +271,7 @@ $(function() {
         element.style.marginTop = "5px";
       } else {
         element.style.marginTop = "";
-}
+      }
     });
   });
 });
