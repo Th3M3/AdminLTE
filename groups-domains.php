@@ -26,11 +26,11 @@
             <!-- /.box-header -->
             <div class="box-body">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="form-group col-md-6">
                         <label for="ex1">Domain:</label>
                         <input id="new_domain" type="text" class="form-control" placeholder="Domain to be added">
                     </div>
-                    <div class="col-md-2">
+                    <div class="form-group col-md-2">
                         <label for="ex2">Type:</label>
                         <select id="new_type" class="form-control">
                             <option value="0">Exact whitelist</option>
@@ -39,7 +39,7 @@
                             <option value="3">Regex blacklist</option>
                         </select>
                     </div>
-                    <div class="col-md-4">
+                    <div class="form-group col-md-4">
                         <label for="ex3">Comment:</label>
                         <input id="new_comment" type="text" class="form-control" placeholder="Domain description (optional)">
                     </div>

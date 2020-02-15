@@ -26,13 +26,13 @@
             <!-- /.box-header -->
             <div class="box-body">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="form-group col-md-6">
                         <label for="ex1">Known clients:</label>
                         <select id="select" class="form-control" placeholder="">
                             <option disabled selected>Loading...</option>
                         </select>
                     </div>
-                    <div class="col-md-6">
+                    <div class="form-group col-md-6">
                         <label for="ex2">Custom client:</label>
                         <input id="ip-custom" type="text" class="form-control" disabled placeholder="Client IP address (IPv4 or IPv6, optional)">
                     </div>

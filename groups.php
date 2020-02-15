@@ -26,11 +26,11 @@
             <!-- /.box-header -->
             <div class="box-body">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="form-group col-md-6">
                         <label for="ex1">Name:</label>
                         <input id="new_name" type="text" class="form-control" placeholder="Group name">
                     </div>
-                    <div class="col-md-6">
+                    <div class="form-group col-md-6">
                         <label for="ex2">Description:</label>
                         <input id="new_desc" type="text" class="form-control" placeholder="Group description (optional)">
                     </div>
