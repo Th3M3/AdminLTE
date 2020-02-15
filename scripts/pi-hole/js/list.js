@@ -266,13 +266,12 @@ $(function() {
 ["resize", "DOMContentLoaded"].forEach(function(event) {
   window.addEventListener(event, function() {
     var btnElList = "#btnAdd, #btnAddWildcard, #btnAddRegex, #btnRefresh";
-    Array.prototype.slice.call(document.querySelectorAll(btnElList))
-      .forEach(function(element) {
-         if (element.offsetTop > 5) {
-             element.style.marginTop = "5px";
-         } else {
-             element.style.marginTop = "";
-         };
-      });
+    Array.prototype.slice.call(document.querySelectorAll(btnElList)).forEach(function(element) {
+      if (element.offsetTop > 5) {
+        element.style.marginTop = "5px";
+      } else {
+        element.style.marginTop = "";
+}
+    });
   });
 });
