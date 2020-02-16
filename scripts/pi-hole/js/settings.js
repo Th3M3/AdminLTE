@@ -245,7 +245,7 @@ $(".nav-tabs a").on("shown.bs.tab", function(e) {
   window.history.pushState("", "", "?tab=" + tab);
   // refresh site if Teleporter Import function was used before
   if (document.TelepoterImportUsed) {
-      window.location.reload();
+    window.location.reload();
   }
 
   window.scrollTo(0, 0);
@@ -262,8 +262,8 @@ $(document).ready(function() {
 });
 
 // remember if Teleporter Import function was used
-document.getElementById("teleporter_import").addEventListener("click", function(){
-  if (document.getElementById("zip_file").value != "") {
+document.getElementById("teleporter_import").addEventListener("click", function() {
+  if (document.getElementById("zip_file").files.length === 1) {
     document.TelepoterImportUsed = true;
   }
 });
