@@ -1183,10 +1183,10 @@ if (isset($_GET['tab']) && in_array($_GET['tab'], array("sysadmin", "blocklists"
                                             <div class="col-lg-6 col-md-12">
                                                 <div class="form-group">
                                                     <label for="zip_file">File input</label>
-                                                    <input type="file" name="zip_file" id="zip_file">
+                                                    <input type="file" name="zip_file" id="zip_file" class="input-group col-xs-12">
                                                     <p class="help-block">Upload only Pi-hole backup files.</p>
                                                     <button type="submit" class="btn btn-default" name="action"
-                                                            value="in">Import
+                                                            value="in" id="teleporter_import">Import
                                                     </button>
                                                     <div class="checkbox">
                                                         <label><input type="checkbox" name="flushtables" value="true"

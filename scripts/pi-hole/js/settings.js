@@ -243,8 +243,9 @@ $("button[id^='adlist-btn-']").on("click", function(e) {
 $(".nav-tabs a").on("shown.bs.tab", function(e) {
   var tab = e.target.hash.substring(1);
   window.history.pushState("", "", "?tab=" + tab);
-  if (tab === "piholedhcp") {
-    window.location.reload();
+  // refresh site if Teleporter Import function was used before
+  if (document.TelepoterImportUsed) {
+      window.location.reload();
   }
 
   window.scrollTo(0, 0);
@@ -257,5 +258,12 @@ $(document).ready(function() {
     alInfo.delay(3000).fadeOut(2000, function() {
       alInfo.hide();
     });
+  }
+});
+
+// remember if Teleporter Import function was used
+document.getElementById("teleporter_import").addEventListener("click", function(){
+  if (document.getElementById("zip_file").value != "") {
+    document.TelepoterImportUsed = true;
   }
 });
