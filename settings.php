@@ -289,11 +289,11 @@ if (isset($_GET['tab']) && in_array($_GET['tab'], array("sysadmin", "blocklists"
                                             </table>
                                         </div>
                                         <div class="row">
-                                            <div class="form-group col-md-6">
+                                            <div class="form-group col-lg-6">
                                                 <label for="newuserlists">Domain:</label>
                                                 <input name="newuserlists" type="text" class="form-control" placeholder="Enter a URL to add a new blocklist">
                                             </div>
-                                            <div class="form-group col-md-6">
+                                            <div class="form-group col-lg-6">
                                                 <label for="newusercomment">Comment:</label>
                                                 <input name="newusercomment" type="text" class="form-control" placeholder="Include a comment (optional)">
                                             </div>
