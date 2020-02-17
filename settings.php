@@ -294,12 +294,12 @@ if (isset($_GET['tab']) && in_array($_GET['tab'], array("sysadmin", "blocklists"
                                                 </tbody>
                                             </table>
                                         </div>
-                                        <div class="form-group row">
-                                            <div class="col-xs-6">
+                                        <div class="row">
+                                            <div class="form-group col-lg-6">
                                                 <label for="newuserlists">Domain:</label>
                                                 <input name="newuserlists" type="text" class="form-control" placeholder="Enter a URL to add a new blocklist">
                                             </div>
-                                            <div class="col-xs-6">
+                                            <div class="form-group col-lg-6">
                                                 <label for="newusercomment">Comment:</label>
                                                 <input name="newusercomment" type="text" class="form-control" placeholder="Include a comment (optional)">
                                             </div>                                            
@@ -751,6 +751,8 @@ if (isset($_GET['tab']) && in_array($_GET['tab'], array("sysadmin", "blocklists"
                                                         <input type="text" name="custom1val" class="form-control"
                                                                <?php if (isset($custom1)){ ?>value="<?php echo $custom1; ?>"<?php } ?>>
                                                     </div>
+                                                <div class="form-group">
+                                                </div>
                                                     <label>Custom 2 (IPv4)</label>
                                                     <div class="input-group">
                                                         <div class="input-group-addon">
@@ -773,6 +775,8 @@ if (isset($_GET['tab']) && in_array($_GET['tab'], array("sysadmin", "blocklists"
                                                         <input type="text" name="custom3val" class="form-control"
                                                                <?php if (isset($custom3)){ ?>value="<?php echo $custom3; ?>"<?php } ?>>
                                                     </div>
+                                                <div class="form-group">
+                                                </div>
                                                     <label>Custom 4 (IPv6)</label>
                                                     <div class="input-group">
                                                         <div class="input-group-addon">
@@ -1032,10 +1036,8 @@ if (isset($_GET['tab']) && in_array($_GET['tab'], array("sysadmin", "blocklists"
                                                 </div>
                                                 <h4>Administrator Email Address</h4>
                                                 <div class="form-group">
-                                                    <div class="input-group">
-                                                        <input type="text" class="form-control" name="adminemail"
-                                                               value="<?php echo htmlspecialchars($adminemail); ?>">
-                                                    </div>
+                                                    <input type="text" class="form-control" name="adminemail"
+                                                           value="<?php echo htmlspecialchars($adminemail); ?>">
                                                 </div>
                                                 <input type="hidden" name="field" value="webUI">
                                                 <input type="hidden" name="token" value="<?php echo $token ?>">
