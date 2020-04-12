@@ -71,7 +71,7 @@ if (isset($_POST["submit"])) {
 
 
 <?php
-// Networking
+// Networking TEST
 if (isset($setupVars["PIHOLE_INTERFACE"])) {
     $piHoleInterface = $setupVars["PIHOLE_INTERFACE"];
 } else {
