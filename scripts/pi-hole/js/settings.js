@@ -36,14 +36,14 @@ $(function() {
     }
   });
 
-  // reset Teleporter iframe
-  $("#teleporterModal").on("hidden.bs.modal", function() {
-    $('iframe[name="teleporter_iframe"]').attr("src", "");
-  });
-
   // onClick event to reload site
   $("#teleporterModalReloadBtn").on("click", function() {
     location.reload();
+  });
+
+  // reset Teleporter iframe
+  $("#teleporterModal").on("hidden.bs.modal", function() {
+    $('iframe[name="teleporter_iframe"]').attr("src", "");
   });
 
   // display selected Teleporter input file on adjacent textfield
@@ -257,14 +257,10 @@ $(document).ready(function() {
   $('[data-toggle="tooltip"]').tooltip({ html: true, container: "body" });
 });
 
-// Change "?tab=" parameter in URL for save and reload
+// Update "?tab=" parameter in URL for save and reload
 $(".nav-tabs a").on("shown.bs.tab", function(e) {
   var tab = e.target.hash.substring(1);
   window.history.pushState("", "", "?tab=" + tab);
-  if (tab === "piholedhcp") {
-    window.location.reload();
-  }
-
   window.scrollTo(0, 0);
 });
 
