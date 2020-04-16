@@ -18,17 +18,19 @@ $(function() {
 
   // adjust Teleporter iframe height
   $('iframe[name="teleporter"]').load(function() {
-    var contentHeight = $(this).contents().height();
+    var contentHeight = $(this)
+      .contents()
+      .height();
     if (contentHeight > $(this).height()) {
-      $(this).height(contentHeight)
+      $(this).height(contentHeight);
     }
 
     // force user to reload site after Teleporter Import
     if (
       $(this)
         .contents()
-          .find("span[data-forcereload]").length)
-            {
+        .find("span[data-forcereload]").length
+      ){
       $("#teleporterModalReloadBtn").removeClass("hidden");
       $("#teleporterModalCloseBtn").addClass("hidden");
     }
