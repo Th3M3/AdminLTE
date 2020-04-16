@@ -15,6 +15,39 @@ $(function() {
     $('input[name="AddIP"]').val(ip);
     $('input[name="AddMAC"]').val(mac);
   });
+
+  // adjust Teleporter iframe height
+  $('iframe[name="teleporter"]').load(function() {
+      contentHeight = $(this).contents().height();
+      if (contentHeight > $(this).height()) {
+          $(this).height(contentHeight)
+      }
+      // force user to reload site after Teleporter Import
+      if ($(this).contents().find('span[data-forcereload]').length) {
+        $("#teleporterModalReloadBtn").removeClass("hidden");
+        $("#teleporterModalCloseBtn").addClass("hidden");
+      }
+  });
+
+  // reset Teleporter iframe
+  $('#teleporterModal').on('hidden.bs.modal', function() {
+    $('iframe[name="teleporter"]').attr("src","");
+  });
+
+  // onClick event to reload site
+  $("#teleporterModalReloadBtn").on("click", function() {
+    location.reload();
+  });
+
+  // display selected Teleporter input file on adjacent textfield
+  $("#zip_file").change(function (){
+    if ($(this)[0].files.length) {
+      var fileName = $(this)[0].files[0].name;
+      $("#zip_filename").val(fileName);
+    } else {
+      $("#zip_filename").val("");
+    }
+  });
 });
 $(".confirm-poweroff").confirm({
   text: "Are you sure you want to send a poweroff command to your Pi-Hole?",
