@@ -17,7 +17,7 @@ $(function() {
   });
 
   // adjust Teleporter iframe height
-  $('iframe[name="teleporter"]').load(function() {
+  $('iframe[name="teleporter_iframe"]').load(function() {
     var contentHeight = $(this)
       .contents()
       .height();
@@ -38,7 +38,7 @@ $(function() {
 
   // reset Teleporter iframe
   $("#teleporterModal").on("hidden.bs.modal", function() {
-    $('iframe[name="teleporter"]').attr("src", "");
+    $('iframe[name="teleporter_iframe"]').attr("src", "");
   });
 
   // onClick event to reload site
