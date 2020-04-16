@@ -38,7 +38,7 @@ $(function() {
 
   // onClick event to reload site
   $("#teleporterModalReloadBtn").on("click", function() {
-    location.reload();
+    window.location.reload();
   });
 
   // reset Teleporter iframe
