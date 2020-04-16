@@ -18,20 +18,25 @@ $(function() {
 
   // adjust Teleporter iframe height
   $('iframe[name="teleporter"]').load(function() {
-      contentHeight = $(this).contents().height();
-      if (contentHeight > $(this).height()) {
-          $(this).height(contentHeight)
-      }
-      // force user to reload site after Teleporter Import
-      if ($(this).contents().find('span[data-forcereload]').length) {
-        $("#teleporterModalReloadBtn").removeClass("hidden");
-        $("#teleporterModalCloseBtn").addClass("hidden");
-      }
+    var contentHeight = $(this).contents().height();
+    if (contentHeight > $(this).height()) {
+      $(this).height(contentHeight)
+    }
+
+    // force user to reload site after Teleporter Import
+    if (
+      $(this)
+        .contents()
+          .find("span[data-forcereload]").length)
+            {
+      $("#teleporterModalReloadBtn").removeClass("hidden");
+      $("#teleporterModalCloseBtn").addClass("hidden");
+    }
   });
 
   // reset Teleporter iframe
-  $('#teleporterModal').on('hidden.bs.modal', function() {
-    $('iframe[name="teleporter"]').attr("src","");
+  $("#teleporterModal").on("hidden.bs.modal", function() {
+    $('iframe[name="teleporter"]').attr("src", "");
   });
 
   // onClick event to reload site
@@ -40,7 +45,7 @@ $(function() {
   });
 
   // display selected Teleporter input file on adjacent textfield
-  $("#zip_file").change(function (){
+  $("#zip_file").change(function() {
     if ($(this)[0].files.length) {
       var fileName = $(this)[0].files[0].name;
       $("#zip_filename").val(fileName);
