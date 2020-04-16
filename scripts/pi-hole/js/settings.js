@@ -30,7 +30,7 @@ $(function() {
       $(this)
         .contents()
         .find("span[data-forcereload]").length
-      ){
+    ) {
       $("#teleporterModalReloadBtn").removeClass("hidden");
       $("#teleporterModalCloseBtn").addClass("hidden");
     }
