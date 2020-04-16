@@ -12,7 +12,7 @@ require "database.php";
 require "savesettings.php";
 
 if (php_sapi_name() !== "cli") {
-	if(!$auth) die("Not authorized");
+	if(!$auth) die("<code>Not authorized</code>");
 	check_csrf(isset($_POST["token"]) ? $_POST["token"] : "");
 }
 
@@ -136,8 +136,7 @@ function archive_restore_table($file, $table, $flush=false)
 	// Return early if we fail to prepare the SQLite statement
 	if(!$stmt)
 	{
-		echo "Failed to prepare statement for ".$table." table.";
-		echo $sql;
+		echo "<code>Failed to prepare statement for ".$table." table.".$sql."</code>";
 		return 0;
 	}
 
@@ -289,6 +288,15 @@ function process_file($contents)
 	return $domains;
 }
 
+function noun($num)
+{
+	if($num === 1)
+    {
+        return " entry";
+    }
+    return " entries";
+}
+
 if(isset($_POST["action"]))
 {
 	if($_FILES["zip_file"]["name"] && $_POST["action"] == "in")
@@ -309,41 +317,43 @@ if(isset($_POST["action"]))
 
 		$continue = strtolower($name[1]) == 'tar' && strtolower($name[2]) == 'gz' ? true : false;
 		if(!$continue || !$okay) {
-			die("The file you are trying to upload is not a .tar.gz file (filename: ".htmlentities($filename).", type: ".htmlentities($type)."). Please try again.");
+			die("<code>The file you are trying to upload is not a .tar.gz file (filename: ".htmlentities($filename).", type: ".htmlentities($type)."). Please try again.</code>");
 		}
 
 		$fullfilename = sys_get_temp_dir()."/".$filename;
 		if(!move_uploaded_file($source, $fullfilename))
 		{
-			die("Failed moving ".htmlentities($source)." to ".htmlentities($fullfilename));
+			die("<code>Failed moving ".htmlentities($source)." to ".htmlentities($fullfilename))."</code>";
 		}
 
 		$archive = new PharData($fullfilename);
 
 		$importedsomething = false;
+		$reloadsettingspage = false;
 
 		$flushtables = isset($_POST["flushtables"]);
 
+		echo "<code>";
 		foreach(new RecursiveIteratorIterator($archive) as $file)
 		{
 			if(isset($_POST["blacklist"]) && $file->getFilename() === "blacklist.txt")
 			{
 				$num = archive_insert_into_table($file, "blacklist", $flushtables);
-				echo "Processed blacklist (exact) (".$num." entries)<br>\n";
+				echo "Processed blacklist (exact) (".$num.noun($num).")<br>\n";
 				$importedsomething = true;
 			}
 
 			if(isset($_POST["whitelist"]) && $file->getFilename() === "whitelist.txt")
 			{
 				$num = archive_insert_into_table($file, "whitelist", $flushtables);
-				echo "Processed whitelist (exact) (".$num." entries)<br>\n";
+				echo "Processed whitelist (exact) (".$num.noun($num).")<br>\n";
 				$importedsomething = true;
 			}
 
 			if(isset($_POST["regexlist"]) && $file->getFilename() === "regex.list")
 			{
 				$num = archive_insert_into_table($file, "regex_blacklist", $flushtables);
-				echo "Processed blacklist (regex) (".$num." entries)<br>\n";
+				echo "Processed blacklist (regex) (".$num.noun($num).")<br>\n";
 				$importedsomething = true;
 			}
 
@@ -351,63 +361,63 @@ if(isset($_POST["action"]))
 			if(isset($_POST["regexlist"]) && $file->getFilename() === "wildcardblocking.txt")
 			{
 				$num = archive_insert_into_table($file, "regex_blacklist", $flushtables, true);
-				echo "Processed blacklist (regex, wildcard style) (".$num." entries)<br>\n";
+				echo "Processed blacklist (regex, wildcard style) (".$num.noun($num).")<br>\n";
 				$importedsomething = true;
 			}
 
 			if(isset($_POST["auditlog"]) && $file->getFilename() === "auditlog.list")
 			{
 				$num = archive_insert_into_table($file, "domain_audit", $flushtables);
-				echo "Processed audit log (".$num." entries)<br>\n";
+				echo "Processed audit log (".$num.noun($num).")<br>\n";
 				$importedsomething = true;
 			}
 
 			if(isset($_POST["adlist"]) && $file->getFilename() === "adlists.list")
 			{
 				$num = archive_insert_into_table($file, "adlist", $flushtables);
-				echo "Processed adlists (".$num." entries)<br>\n";
+				echo "Processed adlists (".$num.noun($num).")<br>\n";
 				$importedsomething = true;
 			}
 
 			if(isset($_POST["blacklist"]) && $file->getFilename() === "blacklist.exact.json")
 			{
 				$num = archive_restore_table($file, "blacklist", $flushtables);
-				echo "Processed blacklist (exact) (".$num." entries)<br>\n";
+				echo "Processed blacklist (exact) (".$num.noun($num).")<br>\n";
 				$importedsomething = true;
 			}
 
 			if(isset($_POST["regexlist"]) && $file->getFilename() === "blacklist.regex.json")
 			{
 				$num = archive_restore_table($file, "regex_blacklist", $flushtables);
-				echo "Processed blacklist (regex) (".$num." entries)<br>\n";
+				echo "Processed blacklist (regex) (".$num.noun($num).")<br>\n";
 				$importedsomething = true;
 			}
 
 			if(isset($_POST["whitelist"]) && $file->getFilename() === "whitelist.exact.json")
 			{
 				$num = archive_restore_table($file, "whitelist", $flushtables);
-				echo "Processed whitelist (exact) (".$num." entries)<br>\n";
+				echo "Processed whitelist (exact) (".$num.noun($num).")<br>\n";
 				$importedsomething = true;
 			}
 
 			if(isset($_POST["regex_whitelist"]) && $file->getFilename() === "whitelist.regex.json")
 			{
 				$num = archive_restore_table($file, "regex_whitelist", $flushtables);
-				echo "Processed whitelist (regex) (".$num." entries)<br>\n";
+				echo "Processed whitelist (regex) (".$num.noun($num).")<br>\n";
 				$importedsomething = true;
 			}
 
 			if(isset($_POST["adlist"]) && $file->getFilename() === "adlist.json")
 			{
 				$num = archive_restore_table($file, "adlist", $flushtables);
-				echo "Processed adlist (".$num." entries)<br>\n";
+				echo "Processed adlist (".$num.noun($num).")<br>\n";
 				$importedsomething = true;
 			}
 
 			if(isset($_POST["auditlog"]) && $file->getFilename() === "domain_audit.json")
 			{
 				$num = archive_restore_table($file, "domain_audit", $flushtables);
-				echo "Processed domain_audit (".$num." entries)<br>\n";
+				echo "Processed domain_audit (".$num.noun($num).")<br>\n";
 				$importedsomething = true;
 			}
 
@@ -430,9 +440,10 @@ if(isset($_POST["action"]))
 				}
 
 				readStaticLeasesFile();
-				echo "Processed static DHCP leases (".$num." entries)<br>\n";
+				echo "Processed static DHCP leases (".$num.noun($num).")<br>\n";
 				if($num > 0) {
 					$importedsomething = true;
+					$reloadsettingspage = true;
 				}
 			}
 		}
@@ -443,11 +454,16 @@ if(isset($_POST["action"]))
 		}
 
 		unlink($fullfilename);
-		echo "OK";
+		echo "OK<br>\n";
+		if($reloadsettingspage)
+		{
+			echo "<br>\n<span data-forcereload>Please reload the settings page to see any updates.</span>";
+		}
+		echo "</code>";
 	}
 	else
 	{
-		die("No file transmitted or parameter error.");
+		die("<code>No file transmitted or parameter error.</code>");
 	}
 }
 else
@@ -458,7 +474,7 @@ else
 	$archive = new PharData($archive_file_name);
 
 	if ($archive->isWritable() !== TRUE) {
-		exit("cannot open/create ".htmlentities($archive_file_name)."<br>\nPHP user: ".exec('whoami')."\n");
+		exit("<code>cannot open/create ".htmlentities($archive_file_name)."<br>\nPHP user: ".exec('whoami')."\n</code>");
 	}
 
 	archive_add_table("whitelist.exact.json", "domainlist", ListType::whitelist);
