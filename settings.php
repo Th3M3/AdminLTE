@@ -1067,7 +1067,7 @@ if (isset($_GET['tab']) && in_array($_GET['tab'], array("sysadmin", "blocklists"
                         <?php if (extension_loaded('Phar')) { ?>
                         <form role="form" method="post" id="takeoutform"
                               action="scripts/pi-hole/php/teleporter.php"
-                              target="_blank" enctype="multipart/form-data">
+                              target="teleporter_iframe" enctype="multipart/form-data">
                             <input type="hidden" name="token" value="<?php echo $token ?>">
                             <div class="col-lg-6 col-md-12">
                                 <div class="box box-warning">
@@ -1134,11 +1134,42 @@ if (isset($_GET['tab']) && in_array($_GET['tab'], array("sysadmin", "blocklists"
                                             <div class="col-lg-6 col-md-12">
                                                 <div class="form-group">
                                                     <label for="zip_file">File input</label>
-                                                    <input type="file" name="zip_file" id="zip_file">
+                                                    <div class="input-group">
+                                                        <span class="input-group-btn">
+                                                            <span class="btn btn-default btn-file">Browse...
+                                                                <input type="file" name="zip_file" id="zip_file" accept="application/gzip">
+                                                            </span>
+                                                        </span>
+                                                        <input type="text" id="zip_filename" readonly="readonly" placeholder="no file selected" class="form-control">
+                                                    </div>
                                                     <p class="help-block">Upload only Pi-hole backup files.</p>
                                                     <button type="submit" class="btn btn-default" name="action"
-                                                            value="in">Import
+                                                            value="in" data-toggle="modal" data-target="#teleporterModal">Import
                                                     </button>
+                                                    <div class="modal fade" id="teleporterModal" role="dialog" data-keyboard="false"
+                                                         tabindex="-1" data-backdrop="static" aria-labelledby="teleporterModalLabel">
+                                                        <div class="modal-dialog" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h4 class="modal-title" id="exampleModalLabel">Teleporter Import</h4>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <form>
+                                                                        <label for="message-text" class="control-label">Process:</label>
+                                                                        <pre class="no-padding no-margin"><iframe class="col-xs-12 no-border no-padding" 
+                                                                                                                  name="teleporter_iframe" height="100">
+                                                                                                          </iframe></pre>
+                                                                    </form>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" data-dismiss="modal" id="teleporterModalCloseBtn" class="btn btn-default">Close</button>
+                                                                    <button type="button" data-dismiss="modal" id="teleporterModalReloadBtn" class="btn btn-default hidden">
+                                                                        <i class="fas fa-sync"></i> Reload page
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                     <div class="checkbox">
                                                         <label><input type="checkbox" name="flushtables" value="true"
                                                                       checked>
