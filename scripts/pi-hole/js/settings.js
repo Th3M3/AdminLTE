@@ -31,8 +31,7 @@ $(function() {
     if (contentHeight > $(this).height()) {
       $(this).height(contentHeight);
     }
-    $("#teleporterModalReloadBtn, #teleporterModalCloseBtn")
-      .prop("disabled", false);
+    $("#teleporterModalReloadBtn, #teleporterModalCloseBtn").prop("disabled", false);
 
     // force user to reload page if necessary
     if (
@@ -40,8 +39,7 @@ $(function() {
         .contents()
         .find("span[data-forcereload]").length
     ) {
-      $("#teleporterModalReloadBtn, #teleporterModalCloseBtn")
-        .toggleClass("hidden");
+      $("#teleporterModalReloadBtn, #teleporterModalCloseBtn").toggleClass("hidden");
       $("#teleporterModalReloadBtn").on("click", function() {
         window.location.reload();
       });
@@ -51,15 +49,16 @@ $(function() {
   // reset Teleporter modal & iframe once back hidden
   $("#teleporterModal").on("hidden.bs.modal", function() {
     $('iframe[name="teleporter_iframe"]')
-    .removeAttr("style")
-    .contents().find("body").html("");
-    $("#teleporterModalReloadBtn, #teleporterModalCloseBtn")
-      .prop("disabled", true);
+      .removeAttr("style")
+      .contents()
+      .find("body")
+      .html("");
+    $("#teleporterModalReloadBtn, #teleporterModalCloseBtn").prop("disabled", true);
   });
 
   // display selected Teleporter file on button's adjacent textfield
   $("#zip_file").change(function() {
-    var fileName = ($(this)[0].files.length) ? $(this)[0].files[0].name : "";
+    var fileName = $(this)[0].files.length ? $(this)[0].files[0].name : "";
     $("#zip_filename").val(fileName);
   });
 });
