@@ -44,7 +44,7 @@ if (isset($_POST["submit"])) {
 
 <?php if (isset($debug)) { ?>
     <div id="alDebug" class="alert alert-warning alert-dismissible fade in" role="alert">
-        <button type="button" class="close" data-hide="alert" aria-label="Close"><span aria-hidden="true">&times;</span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="close"><span aria-hidden="true">&times;</span>
         </button>
         <h4><i class="icon fa fa-exclamation-triangle"></i> Debug</h4>
         <pre><?php print_r($_POST); ?></pre>
@@ -53,7 +53,7 @@ if (isset($_POST["submit"])) {
 
 <?php if (strlen($success) > 0) { ?>
     <div id="alInfo" class="alert alert-info alert-dismissible fade in" role="alert">
-        <button type="button" class="close" data-hide="alert" aria-label="Close"><span aria-hidden="true">&times;</span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="close"><span aria-hidden="true">&times;</span>
         </button>
         <h4><i class="icon fa fa-info"></i> Info</h4>
         <?php echo $success; ?>
@@ -62,7 +62,7 @@ if (isset($_POST["submit"])) {
 
 <?php if (strlen($error) > 0) { ?>
     <div id="alError" class="alert alert-danger alert-dismissible fade in" role="alert">
-        <button type="button" class="close" data-hide="alert" aria-label="Close"><span aria-hidden="true">&times;</span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="close"><span aria-hidden="true">&times;</span>
         </button>
         <h4><i class="icon fa fa-ban"></i> Error</h4>
         <?php echo $error; ?>
@@ -557,7 +557,7 @@ if (isset($_GET['tab']) && in_array($_GET['tab'], array("sysadmin", "blocklists"
                                             </div>
                                             <div class="col-md-12">
                                                 <label>Static DHCP leases configuration</label>
-                                                <table id="DHCPStaticLeasesTable" class="table table-striped table-bordered dt-responsive nowrap"
+                                                <table id="DHCPStaticLeasesTable" class="display table table-striped table-bordered"
                                                        cellspacing="0" width="100%">
                                                     <thead>
                                                     <tr>
@@ -1155,15 +1155,15 @@ if (isset($_GET['tab']) && in_array($_GET['tab'], array("sysadmin", "blocklists"
                                                                 </div>
                                                                 <div class="modal-body">
                                                                     <form>
-                                                                        <label for="message-text" class="control-label">Process:</label>
+                                                                        <label class="control-label">Output:</label>
                                                                         <pre class="no-padding no-margin"><iframe class="col-xs-12 no-border no-padding" 
-                                                                                                                  name="teleporter_iframe" height="100">
-                                                                                                          </iframe></pre>
+                                                                                                                  name="teleporter_iframe"
+                                                                                                                  height="100"></iframe></pre>
                                                                     </form>
                                                                 </div>
                                                                 <div class="modal-footer">
-                                                                    <button type="button" data-dismiss="modal" id="teleporterModalCloseBtn" class="btn btn-default">Close</button>
-                                                                    <button type="button" data-dismiss="modal" id="teleporterModalReloadBtn" class="btn btn-default hidden">
+                                                                    <button type="button" data-dismiss="modal" id="teleporterModalCloseBtn" class="btn btn-default" disabled>Close</button>
+                                                                    <button type="button" data-dismiss="modal" id="teleporterModalReloadBtn" class="btn btn-default hidden" disabled>
                                                                         <i class="fas fa-sync"></i> Reload page
                                                                     </button>
                                                                 </div>

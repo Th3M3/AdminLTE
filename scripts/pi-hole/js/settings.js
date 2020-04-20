@@ -16,44 +16,51 @@ $(function() {
     $('input[name="AddMAC"]').val(mac);
   });
 
-  // adjust Teleporter iframe height
-  $('iframe[name="teleporter_iframe"]').load(function() {
+  // Teleporter modal & iframe adjustments when loaded completely
+  $('iframe[name="teleporter_iframe"]').on("load", function() {
+    var font = {
+      "font-family": $("pre").css("font-family"),
+      "font-size":  $("pre").css("font-size")
+    };
     var contentHeight = $(this)
       .contents()
+      .find("body")
+      .css(font)
+      .parent("html")
       .height();
     if (contentHeight > $(this).height()) {
       $(this).height(contentHeight);
     }
+    $("#teleporterModalReloadBtn, #teleporterModalCloseBtn")
+      .prop("disabled", false);
 
-    // force user to reload site after Teleporter Import
+    // force user to reload page if necessary
     if (
       $(this)
         .contents()
         .find("span[data-forcereload]").length
     ) {
-      $("#teleporterModalReloadBtn").removeClass("hidden");
-      $("#teleporterModalCloseBtn").addClass("hidden");
+      $("#teleporterModalReloadBtn, #teleporterModalCloseBtn")
+        .toggleClass("hidden");
+      $("#teleporterModalReloadBtn").on("click", function() {
+        window.location.reload();
+      });
     }
   });
 
-  // onClick event to reload site
-  $("#teleporterModalReloadBtn").on("click", function() {
-    window.location.reload();
-  });
-
-  // reset Teleporter iframe
+  // reset Teleporter modal & iframe once back hidden
   $("#teleporterModal").on("hidden.bs.modal", function() {
-    $('iframe[name="teleporter_iframe"]').attr("src", "");
+    $('iframe[name="teleporter_iframe"]')
+    .removeAttr("style")
+    .contents().find("body").html("");
+    $("#teleporterModalReloadBtn, #teleporterModalCloseBtn")
+      .prop("disabled", true);
   });
 
-  // display selected Teleporter input file on adjacent textfield
+  // display selected Teleporter file on button's adjacent textfield
   $("#zip_file").change(function() {
-    if ($(this)[0].files.length) {
-      var fileName = $(this)[0].files[0].name;
-      $("#zip_filename").val(fileName);
-    } else {
-      $("#zip_filename").val("");
-    }
+    var fileName = ($(this)[0].files.length) ? $(this)[0].files[0].name : "";
+    $("#zip_filename").val(fileName);
   });
 });
 $(".confirm-poweroff").confirm({

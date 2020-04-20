@@ -12,7 +12,7 @@ require "database.php";
 require "savesettings.php";
 
 if (php_sapi_name() !== "cli") {
-	if(!$auth) die("<code>Not authorized</code>");
+	if(!$auth) die("Not authorized");
 	check_csrf(isset($_POST["token"]) ? $_POST["token"] : "");
 }
 
@@ -136,7 +136,8 @@ function archive_restore_table($file, $table, $flush=false)
 	// Return early if we fail to prepare the SQLite statement
 	if(!$stmt)
 	{
-		echo "<code>Failed to prepare statement for ".$table." table.".$sql."</code>";
+		echo "Failed to prepare statement for ".$table." table.";
+		echo $sql;
 		return 0;
 	}
 
@@ -291,10 +292,10 @@ function process_file($contents)
 function noun($num)
 {
 	if($num === 1)
-    {
-        return " entry";
-    }
-    return " entries";
+	{
+		return " entry";
+	}
+	return " entries";
 }
 
 if(isset($_POST["action"]))
@@ -317,13 +318,13 @@ if(isset($_POST["action"]))
 
 		$continue = strtolower($name[1]) == 'tar' && strtolower($name[2]) == 'gz' ? true : false;
 		if(!$continue || !$okay) {
-			die("<code>The file you are trying to upload is not a .tar.gz file (filename: ".htmlentities($filename).", type: ".htmlentities($type)."). Please try again.</code>");
+			die("The file you are trying to upload is not a .tar.gz file (filename: ".htmlentities($filename).", type: ".htmlentities($type)."). Please try again.");
 		}
 
 		$fullfilename = sys_get_temp_dir()."/".$filename;
 		if(!move_uploaded_file($source, $fullfilename))
 		{
-			die("<code>Failed moving ".htmlentities($source)." to ".htmlentities($fullfilename))."</code>";
+			die("Failed moving ".htmlentities($source)." to ".htmlentities($fullfilename));
 		}
 
 		$archive = new PharData($fullfilename);
@@ -333,7 +334,6 @@ if(isset($_POST["action"]))
 
 		$flushtables = isset($_POST["flushtables"]);
 
-		echo "<code>";
 		foreach(new RecursiveIteratorIterator($archive) as $file)
 		{
 			if(isset($_POST["blacklist"]) && $file->getFilename() === "blacklist.txt")
@@ -459,11 +459,10 @@ if(isset($_POST["action"]))
 		{
 			echo "<br>\n<span data-forcereload>Please reload the settings page to see any updates.</span>";
 		}
-		echo "</code>";
 	}
 	else
 	{
-		die("<code>No file transmitted or parameter error.</code>");
+		die("No file transmitted or parameter error.");
 	}
 }
 else
@@ -474,7 +473,7 @@ else
 	$archive = new PharData($archive_file_name);
 
 	if ($archive->isWritable() !== TRUE) {
-		exit("<code>cannot open/create ".htmlentities($archive_file_name)."<br>\nPHP user: ".exec('whoami')."\n</code>");
+		exit("cannot open/create ".htmlentities($archive_file_name)."<br>\nPHP user: ".exec('whoami')."\n");
 	}
 
 	archive_add_table("whitelist.exact.json", "domainlist", ListType::whitelist);
