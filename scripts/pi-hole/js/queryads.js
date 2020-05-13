@@ -116,7 +116,6 @@ $("#domain_1, #domain_2").keypress(function (e) {
   }
 });
 
-
 // Handle search buttons
 $("button[id^='btnSearch']").on("click", function () {
   exact = "";
@@ -124,5 +123,6 @@ $("button[id^='btnSearch']").on("click", function () {
   if (this.id.match("^btnSearchExact")) {
     exact = "exact";
   }
+
   eventsource();
 });
