@@ -1,4 +1,4 @@
-<?php /* 
+<?php /*
 *    Pi-hole: A black hole for Internet advertisements
 *    (c) 2017 Pi-hole, LLC (https://pi-hole.net)
 *    Network-wide ad blocking via your own hardware.
@@ -12,13 +12,25 @@
     <h1>Find Blocked Domain In Lists</h1>
 </div>
 <!-- Domain Input -->
-<div class="form-group input-group">
-    <input id="domain" type="url" class="form-control" placeholder="Domain to look for (example.com or sub.example.com)" autocomplete="off" spellcheck="false" autocapitalize="none" autocorrect="off">
-	<input id="quiet" type="hidden" value="no">
-    <span class="input-group-btn">
-        <button id="btnSearch" class="btn btn-default" type="button">Search partial match</button>
-        <button id="btnSearchExact" class="btn btn-default" type="button">Search exact match</button>
-    </span>
+<div class="visible-xs-block visible-sm-block">
+    <div class="form-group input-group-block">
+        <input id="domain_1" type="url" class="form-control" placeholder="Domain to look for (example.com or sub.example.com)" autocomplete="off" spellcheck="false" autocapitalize="none" autocorrect="off" style="margin-bottom: 5px">
+        <input id="quiet" type="hidden" value="no">
+        <div class="text-center" style="display: block; width: 100%">
+            <button type="button" id="btnSearch_1" class="btn btn-default">Search partial match</button>
+            <button type="button" id="btnSearchExact_1" class="btn btn-default">Search exact match</button>
+        </div>
+    </div>
+</div>
+<!-- >=992px -->
+<div class="visible-md-block visible-lg-block">
+    <div class="form-group input-group">
+        <input id="domain_2" type="url" class="form-control" placeholder="Domain to look for (example.com or sub.example.com)" autocomplete="off" spellcheck="false" autocapitalize="none" autocorrect="off">
+        <span class="input-group-btn">
+            <button type="button" id="btnSearch_2" class="btn btn-default">Search partial match</button>
+            <button type="button" id="btnSearchExact_2" class="btn btn-default">Search exact match</button>
+        </span>
+    </div>
 </div>
 
 <pre id="output" style="width: 100%; height: 100%;" hidden="true"></pre>
