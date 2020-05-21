@@ -36,7 +36,7 @@ $(function () {
 
     // force user to reload the page if necessary
     var reloadEl = contents.find("span[data-forcereload]");
-    if (reloadEl.length) {
+    if (reloadEl.length > 0) {
       var msg = "The page must now be reloaded to display the imported entries";
       reloadEl.append(msg);
       BtnEls.toggleClass("hidden")
@@ -56,7 +56,7 @@ $(function () {
 
   // display selected import file on button's adjacent textfield
   $("#zip_file").change(function () {
-    var fileName = $(this)[0].files.length ? $(this)[0].files[0].name : "";
+    var fileName = $(this)[0].files.length === 1 ? $(this)[0].files[0].name : "";
     $("#zip_filename").val(fileName);
   });
 });
