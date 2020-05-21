@@ -17,35 +17,22 @@ $(function () {
   });
 
   // prepare Teleporter Modal & iframe for operation
-  $("#teleporterModal").on("show.bs.modal", function() {
-    $('iframe[name="teleporter_iframe"]')
-      .removeAttr("style")
-      .contents()
-      .find("body")
-      .html("");
-    $(this)
-      .find("button")
-      .prop("disabled", true);
-    $(this)
-      .find(".overlay")
-      .show();
+  $("#teleporterModal").on("show.bs.modal", function () {
+    $('iframe[name="teleporter_iframe"]').removeAttr("style").contents().find("body").html("");
+    $(this).find("button").prop("disabled", true);
+    $(this).find(".overlay").show();
   });
 
   // set Teleporter iframe's font, enable Modal's button(s), ...
-  $('iframe[name="teleporter_iframe"]').on("load", function() {
+  $('iframe[name="teleporter_iframe"]').on("load", function () {
     var font = {
       "font-family": $("pre").css("font-family"),
       "font-size": $("pre").css("font-size")
     };
     var contents = $(this).contents();
     contents.find("body").css(font);
-    $("#teleporterModal")
-      .find(".overlay")
-      .hide();
-    var BtnEls = $(this)
-      .parents(".modal-content")
-      .find("button")
-      .prop("disabled", false);
+    $("#teleporterModal").find(".overlay").hide();
+    var BtnEls = $(this).parents(".modal-content").find("button").prop("disabled", false);
 
     // force user to reload the page if necessary
     var reloadEl = contents.find("span[data-forcereload]");
@@ -54,7 +41,7 @@ $(function () {
       reloadEl.append(msg);
       BtnEls.toggleClass("hidden")
         .not(".hidden")
-        .on("click", function() {
+        .on("click", function () {
           // window.location.href avoids a browser warning for resending form data
           window.location = window.location.href;
         });
@@ -68,7 +55,7 @@ $(function () {
   });
 
   // display selected import file on button's adjacent textfield
-  $("#zip_file").change(function() {
+  $("#zip_file").change(function () {
     var fileName = $(this)[0].files.length ? $(this)[0].files[0].name : "";
     $("#zip_filename").val(fileName);
   });
